@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# Agenda Contable React
+<img src="https://i.ibb.co/k10CSR0/Captura-de-pantalla-2023-09-08-153810.png">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Esta aplicación se compone de varios componentes y utiliza librerías externas para implementar sus características. A continuación, se detallan las funcionalidades principales de la aplicación y cómo se estructura:
 
-## Available Scripts
+## Descripción General
+La aplicación React es una herramienta de gestión de registros que permite a los usuarios llevar un registro de sus actividades financieras y eventos programados. Los registros se pueden agregar, editar, duplicar y eliminar. La aplicación también ofrece funcionalidades de resumen y filtrado de registros.
 
-In the project directory, you can run:
+## Tecnologías Utilizadas
+- React: La aplicación está desarrollada en el framework React, lo que facilita la creación de interfaces de usuario interactivas y dinámicas.
+- React Router: Se utiliza React Router para manejar la navegación entre diferentes vistas de la aplicación.
+- Bootstrap: Se incorpora Bootstrap para estilizar la interfaz de usuario y mejorar su aspecto visual.
+- Material-UI: Material-UI se utiliza para integrar iconos en la aplicación y mejorar la experiencia de usuario.
+- IndexedDB: La base de datos IndexedDB se emplea para almacenar y gestionar los registros de la aplicación en el lado del cliente.
+- Dayjs: Dayjs es una librería para el manejo de fechas que se utiliza para realizar operaciones con fechas en la aplicación.
+<img src="https://i.ibb.co/vBBVnLv/Captura-de-pantalla-2023-09-08-153830.png">
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Funcionalidades Principales
+- Filtrado por fecha: Los registros se pueden filtrar por fecha seleccionando una fecha en el calendario.
+- Agregar, editar, duplicar y eliminar registros: Los usuarios pueden realizar estas acciones en los registros existentes o crear nuevos.
+- Resumen de registros: Se muestra un resumen de los registros del día, incluyendo el tiempo restante, descripción, hora y valor.
+- Notificaciones personalizadas: Se pueden mostrar notificaciones personalizadas cuando se realizan acciones en los registros.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Agenda
+La vista de Agenda permite a los usuarios gestionar registros relacionados con actividades programadas y eventos financieros para un día específico. Las funcionalidades clave son:
 
-### `npm test`
+### Archivo
+La vista de Archivo proporciona una vista general de los registros de la aplicación y permite realizar un seguimiento de las actividades financieras a lo largo del tiempo. Las funcionalidades clave son:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Configuración y Ejecución
+- Asegúrese de tener Node.js y npm instalados en su sistema.
+- Clone el repositorio de la aplicación.
+- Ejecute npm install para instalar las dependencias.
+- Ejecute npm start para iniciar la aplicación en modo desarrollo.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Conclusiones
+La aplicación React proporciona una interfaz amigable para la gestión de registros financieros y eventos programados. Con su capacidad para agregar, editar, duplicar y eliminar registros, así como generar resúmenes detallados, la aplicación es una herramienta útil para quienes deseen mantener un registro organizado de sus actividades financieras y eventos planificados.
