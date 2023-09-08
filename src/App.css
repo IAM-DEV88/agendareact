@@ -1,0 +1,66 @@
+.datePicker {
+  box-sizing: border-box;
+  padding: .5rem;
+}
+.datePicker > div {
+  width: 100%;
+}
+
+.AppButtonCtn{
+  padding: .3rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.enabled-button {
+  animation: buttonAnimation .5s ease-in-out; /* Aplica la animación con un ciclo infinito */
+}
+
+@keyframes buttonAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+.modalBody hr{
+  width: 70%;
+  margin: 1rem auto;
+}
+
+.registerType{
+  display: flex;
+  justify-content:space-around;
+}
+.registerType input{
+  display: block;
+  margin: .5rem auto;
+  width: 20px;
+  height: 20px;
+}
+
+.registerData{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.registerData .short{
+  width: 135;
+}
+.registerData .full{
+  width: 100%;
+}
+.registerData label{
+  display: block;
+  padding: .5rem 0;
+}
+.registerData input{
+  padding: .2rem;
+  display: block;
+  width: 120px;
+}
