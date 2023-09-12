@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { useAppContext } from "../Utils";
 
-const Lista = ({ list, gridColumns, toggleModal, showCustomNotification, setSelectedRecords }) => {
+const Lista = ({ gridColumns }) => {
+  const { list, toggleModal, showCustomNotification, setSelectedRecords } =
+    useAppContext();
 
   const [gridRows, setGridRows] = useState([]);
 
@@ -24,51 +27,53 @@ const Lista = ({ list, gridColumns, toggleModal, showCustomNotification, setSele
   useEffect(() => {
     const updateTiempoRestante = () => {
       const ahora = new Date();
-      const updatedRows = list.map((registro) => {
-        const fechaHoraRegistro = new Date(
-          registro.fecha + " " + registro.hora
-        );
-        const diferenciaTiempo = fechaHoraRegistro - ahora;
-        let tiempoRestante =
-          diferenciaTiempo <= 0
-            ? "Ya pasó"
-            : formatTiempoRestante(diferenciaTiempo);
+      const updatedRows = list
+        .map((registro) => {
+          const fechaHoraRegistro = new Date(
+            registro.fecha + " " + registro.hora
+          );
+          const diferenciaTiempo = fechaHoraRegistro - ahora;
+          let tiempoRestante =
+            diferenciaTiempo <= 0
+              ? "Ya pasó"
+              : formatTiempoRestante(diferenciaTiempo);
 
-        if (diferenciaTiempo > 0 && diferenciaTiempo <= 60000) {
-          // Verifica si el cliente ya ha sido notificado
-          if (!registro.notified) {
-            showCustomNotification("Cliente por llegar", registro);
-            // Agrega el ID del cliente a la lista de notificados
-            registro.notified = true;
+          if (diferenciaTiempo > 0 && diferenciaTiempo <= 60000) {
+            // Verifica si el cliente ya ha sido notificado
+            if (!registro.notified) {
+              showCustomNotification("Cliente por llegar", registro);
+              // Agrega el ID del cliente a la lista de notificados
+              registro.notified = true;
+            }
+            tiempoRestante = "Cliente por llegar";
           }
-          tiempoRestante = "Cliente por llegar";
-        }
 
-        if (diferenciaTiempo > 3000000 && diferenciaTiempo <= 3600000) {
-          // Verifica si el cliente ya ha sido notificado
-          if (!registro.notified) {
-            showCustomNotification("Es buen momento para llamar", registro);
-            // Agrega el ID del cliente a la lista de notificados
-            registro.notified = true;
+          if (diferenciaTiempo > 3000000 && diferenciaTiempo <= 3600000) {
+            // Verifica si el cliente ya ha sido notificado
+            if (!registro.notified) {
+              showCustomNotification("Es buen momento para llamar", registro);
+              // Agrega el ID del cliente a la lista de notificados
+              registro.notified = true;
+            }
+            tiempoRestante = "Llamar cliente";
           }
-          tiempoRestante = "Llamar cliente";
-        }
 
-        return {
-          id: registro.id,
-          fecha: registro.fecha,
-          descripcion: registro.descripcion,
-          hora: registro.hora,
-          monto: registro.monto,
-          tipo: registro.tipo,
-          tiempoRestante: tiempoRestante,
-        };
-      }).sort((a, b) => {
-        // Ordenar por fecha y hora
-        const fechaA = new Date(`${a.fecha} ${a.hora}`);
-        const fechaB = new Date(`${b.fecha} ${b.hora}`);
-        return fechaA - fechaB;
-      });
+          return {
+            id: registro.id,
+            fecha: registro.fecha,
+            descripcion: registro.descripcion,
+            hora: registro.hora,
+            monto: registro.monto,
+            tipo: registro.tipo,
+            tiempoRestante: tiempoRestante,
+          };
+        })
+        .sort((a, b) => {
+          // Ordenar por fecha y hora
+          const fechaA = new Date(`${a.fecha} ${a.hora}`);
+          const fechaB = new Date(`${b.fecha} ${b.hora}`);
+          return fechaA - fechaB;
+        });
 
       setGridRows(updatedRows);
     };
@@ -86,10 +91,9 @@ const Lista = ({ list, gridColumns, toggleModal, showCustomNotification, setSele
   }, [list, showCustomNotification]);
 
   const onRowsSelectionHandler = (ids) => {
-    setSelectedRecords(ids)
+    setSelectedRecords(ids);
     console.log(ids);
-  }
-
+  };
 
   return (
     <>
