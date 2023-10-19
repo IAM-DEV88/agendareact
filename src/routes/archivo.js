@@ -44,10 +44,10 @@
     dayjs.locale(es);
 
     const [filters, setFilters] = useState({
-      Todos: true,
-      Ingresos: true,
-      Egresos: true,
-      Saldos: true,
+      All: true,
+      Income: true,
+      Expense: true,
+      Balance: true,
       Fecha: false,
     });
 
@@ -76,51 +76,51 @@
     ]);
 
     const handleCheckboxChange = (filterName) => {
-      if (filterName === "Todos") {
+      if (filterName === "All") {
         setFilters({
-          Todos: true,
-          Ingresos: true,
-          Egresos: true,
-          Saldos: true,
-          Fecha: false,
+          All: true,
+          Income: true,
+          Expense: true,
+          Balance: true,
+          Date: false,
         });
-      } else if (filterName === "Fecha") {
+      } else if (filterName === "Date") {
         setFilters({...filters,
-          Fecha: true,
-          Todos: false
+          Date: true,
+          All: false
         });
       } else {
-        setFilters({ ...filters, Todos: false, [filterName]: !filters[filterName] });
+        setFilters({ ...filters, All: false, [filterName]: !filters[filterName] });
       }
     };
 
     const filteredList = list.filter((item) => {
       const itemDateTime = new Date(item.date + " " + item.time); // Combina fecha y hora en un solo objeto Date
-      if (filters.Todos && (filters.Ingresos || filters.Egresos || filters.Saldos)) {
+      if (filters.All && (filters.Income || filters.Expense || filters.Balance)) {
         return (
           (item.type !== "Turno") &&
-          ((filters.Ingresos && item.type === "Ingreso") ||
-          (filters.Egresos && item.type === "Egreso") ||
-          (filters.Saldos && item.type === "Saldo"))
+          ((filters.Income && item.type === "Ingreso") ||
+          (filters.Expense && item.type === "Egreso") ||
+          (filters.Balance && item.type === "Saldo"))
         );
       }
-      if (filters.Fecha && (filters.Ingresos || filters.Egresos || filters.Saldos)) {
+      if (filters.Date && (filters.Income || filters.Expense || filters.Balance)) {
         return (
-          filters.Fecha &&
+          filters.Date &&
           itemDateTime.getDate() === selectedDate.$D &&
           itemDateTime.getMonth() === selectedDate.$M &&
           itemDateTime.getFullYear() === selectedDate.$y &&
           item.type !== "Turno" &&
-          ((filters.Ingresos && item.type === "Ingreso") ||
-            (filters.Egresos && item.type === "Egreso") ||
-            (filters.Saldos && item.type === "Saldo"))
+          ((filters.Income && item.type === "Ingreso") ||
+            (filters.Expense && item.type === "Egreso") ||
+            (filters.Balance && item.type === "Saldo"))
         );
       }else{
         return (
           (item.type !== "Turno") &&
-          ((filters.Ingresos && item.type === "Ingreso") ||
-          (filters.Egresos && item.type === "Egreso") ||
-          (filters.Saldos && item.type === "Saldo"))
+          ((filters.Income && item.type === "Ingreso") ||
+          (filters.Expense && item.type === "Egreso") ||
+          (filters.Balance && item.type === "Saldo"))
         );
       }
     });
@@ -134,32 +134,32 @@
             Todos
             <input
               type="checkbox"
-              checked={filters.Todos}
-              onChange={() => handleCheckboxChange("Todos")}
+              checked={filters.All}
+              onChange={() => handleCheckboxChange("All")}
             />
           </div>
           <div>
             Ingresos
             <input
               type="checkbox"
-              checked={filters.Ingresos}
-              onChange={() => handleCheckboxChange("Ingresos")}
+              checked={filters.Income}
+              onChange={() => handleCheckboxChange("Income")}
             />
           </div>
           <div>
             Egresos
             <input
               type="checkbox"
-              checked={filters.Egresos}
-              onChange={() => handleCheckboxChange("Egresos")}
+              checked={filters.Expense}
+              onChange={() => handleCheckboxChange("Expense")}
             />
           </div>
           <div>
-            Saldos
+            Balance
             <input
               type="checkbox"
-              checked={filters.Saldos}
-              onChange={() => handleCheckboxChange("Saldos")}
+              checked={filters.Balance}
+              onChange={() => handleCheckboxChange("Balance")}
             />
           </div>
           <div>
@@ -167,8 +167,8 @@
               Fecha
               <input
                 type="checkbox"
-                checked={filters.Fecha}
-                onChange={() => handleCheckboxChange("Fecha")}
+                checked={filters.Date}
+                onChange={() => handleCheckboxChange("Date")}
               />
             </label>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
