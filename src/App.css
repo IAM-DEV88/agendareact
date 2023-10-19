@@ -19,6 +19,7 @@ html{
   height: 100vh;
   flex-direction: column;
   background-color: var(--bg-perla);
+  overflow-y: scroll;
 }
 
 
@@ -75,7 +76,7 @@ html{
     border-radius: 5px;
     align-self: center;
     min-height: 530px;
-    margin-top: 8rem;
+    margin-bottom: 6rem;
 }
 
 .MuiDataGrid-columnHeaderTitle {
@@ -99,7 +100,7 @@ html{
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    padding-bottom: 8rem;
+    padding-top: 7.5rem;
 }
 .filter-bar section{
   width:100%;

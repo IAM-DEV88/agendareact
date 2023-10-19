@@ -85,7 +85,10 @@
           Fecha: false,
         });
       } else if (filterName === "Fecha") {
-        setFilters({ Todos: false, Fecha: true });
+        setFilters({...filters,
+          Fecha: true,
+          Todos: false
+        });
       } else {
         setFilters({ ...filters, Todos: false, [filterName]: !filters[filterName] });
       }
@@ -93,38 +96,38 @@
 
     const filteredList = list.filter((item) => {
       const itemDateTime = new Date(item.date + " " + item.time); // Combina fecha y hora en un solo objeto Date
-      if (filters.Todos) {
-        return item.type !== "Turno";
+      if (filters.Todos && (filters.Ingresos || filters.Egresos || filters.Saldos)) {
+        return (
+          (item.type !== "Turno") &&
+          ((filters.Ingresos && item.type === "Ingreso") ||
+          (filters.Egresos && item.type === "Egreso") ||
+          (filters.Saldos && item.type === "Saldo"))
+        );
       }
-
-      return (
-        (filters.Ingresos && item.type === "Ingreso") ||
-        (filters.Egresos && item.type === "Egreso") ||
-        (filters.Saldos && item.type === "Saldo") ||
-        (filters.Fecha &&
+      if (filters.Fecha && (filters.Ingresos || filters.Egresos || filters.Saldos)) {
+        return (
+          filters.Fecha &&
           itemDateTime.getDate() === selectedDate.$D &&
           itemDateTime.getMonth() === selectedDate.$M &&
           itemDateTime.getFullYear() === selectedDate.$y &&
-          item.type !== "Turno")
-      );
+          item.type !== "Turno" &&
+          ((filters.Ingresos && item.type === "Ingreso") ||
+            (filters.Egresos && item.type === "Egreso") ||
+            (filters.Saldos && item.type === "Saldo"))
+        );
+      }else{
+        return (
+          (item.type !== "Turno") &&
+          ((filters.Ingresos && item.type === "Ingreso") ||
+          (filters.Egresos && item.type === "Egreso") ||
+          (filters.Saldos && item.type === "Saldo"))
+        );
+      }
     });
 
     return (
       <>
-      <CountableRegisterList
-        list={filteredList}
-        gridColumns={[
-          { field: "description", headerName: "Descripción", width: 130 },
-          {
-            field: "amount",
-            headerName: "Valor",
-            width: 90,
-            valueGetter: (params) => formatCurrency(parseInt(params.value, 10)),
-          },
-          { field: "wallet", headerName: "Billetera", width: 90 },
-          { field: "date", headerName: "Fecha", width: 90 },
-        ]}
-      />
+      
         <section className="filter-bar">
           <section>Mostrar en lista</section>
           <div>
@@ -178,6 +181,20 @@
             </LocalizationProvider>
           </div>
         </section>
+        <CountableRegisterList
+        list={filteredList}
+        gridColumns={[
+          { field: "description", headerName: "Descripción", width: 130 },
+          {
+            field: "amount",
+            headerName: "Valor",
+            width: 90,
+            valueGetter: (params) => formatCurrency(parseInt(params.value, 10)),
+          },
+          { field: "wallet", headerName: "Billetera", width: 90 },
+          { field: "date", headerName: "Fecha", width: 90 },
+        ]}
+      />
         <RegistroModal />
         <div className="footer-container">
           {selectedRecords.length > 0 && (
