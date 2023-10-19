@@ -21,7 +21,7 @@ function App() {
     {
       path: "/archivo",
       element: <Archivo />,
-    },
+    }
   ]);
   return (
     <>

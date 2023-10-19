@@ -8,10 +8,12 @@ La aplicación React es una herramienta de gestión de registros que permite a l
 
 ## Tecnologías Utilizadas
 - React: La aplicación está desarrollada en el framework React, lo que facilita la creación de interfaces de usuario interactivas y dinámicas.
+- Express: para gestionar API Endpoints y la comunicacion hacia el frontend.
+- Axios: para gestionar la comunicacion hacia el backend.
+- MongoDB: La base de datos MongoDB se emplea para almacenar y gestionar los registros de la aplicación en el lado del cliente.
 - React Router: Se utiliza React Router para manejar la navegación entre diferentes vistas de la aplicación.
 - Bootstrap: Se incorpora Bootstrap para estilizar la interfaz de usuario y mejorar su aspecto visual.
 - Material-UI: Material-UI se utiliza para integrar iconos en la aplicación y mejorar la experiencia de usuario.
-- IndexedDB: La base de datos IndexedDB se emplea para almacenar y gestionar los registros de la aplicación en el lado del cliente.
 - Dayjs: Dayjs es una librería para el manejo de fechas que se utiliza para realizar operaciones con fechas en la aplicación.
 <img src="https://i.ibb.co/vBBVnLv/Captura-de-pantalla-2023-09-08-153830.png">
 

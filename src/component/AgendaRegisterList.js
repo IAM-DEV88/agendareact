@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useAppContext } from "../Utils";
 
-const Lista = ({ gridColumns }) => {
-  const { list, toggleModal, showCustomNotification, setSelectedRecords } =
+const AgendaRegisterList = ({ list, gridColumns }) => {
+  const { toggleModal, showCustomNotification, setSelectedRecords } =
     useAppContext();
 
   const [gridRows, setGridRows] = useState([]);
@@ -30,7 +30,7 @@ const Lista = ({ gridColumns }) => {
       const updatedRows = list
         .map((registro) => {
           const fechaHoraRegistro = new Date(
-            registro.fecha + " " + registro.hora
+            registro.date + " " + registro.time
           );
           const diferenciaTiempo = fechaHoraRegistro - ahora;
           let tiempoRestante =
@@ -59,20 +59,21 @@ const Lista = ({ gridColumns }) => {
           }
 
           return {
-            id: registro.id,
-            fecha: registro.fecha,
-            descripcion: registro.descripcion,
-            hora: registro.hora,
-            monto: registro.monto,
-            tipo: registro.tipo,
+            id: registro._id,
+            date: registro.date,
+            description: registro.description,
+            time: registro.time,
+            amount: registro.amount,
+            type: registro.type,
+            wallet: registro.wallet,
             tiempoRestante: tiempoRestante,
           };
         })
         .sort((a, b) => {
           // Ordenar por fecha y hora
-          const fechaA = new Date(`${a.fecha} ${a.hora}`);
-          const fechaB = new Date(`${b.fecha} ${b.hora}`);
-          return fechaA - fechaB;
+          const fechaA = new Date(`${a.date} ${a.time}`);
+          const fechaB = new Date(`${b.date} ${b.time}`);
+          return fechaB - fechaA;
         });
 
       setGridRows(updatedRows);
@@ -92,25 +93,33 @@ const Lista = ({ gridColumns }) => {
 
   const onRowsSelectionHandler = (ids) => {
     setSelectedRecords(ids);
-    console.log(ids);
   };
 
   return (
     <>
-      <div style={{ height: "60vh", width: "100%" }}>
+      <div className="list-container">
         <DataGrid
-          labelRowsPerPage={"Filas por pagina"}
+          {...list}
+        initialState={{
+          ...list.initialState,
+          pagination: { paginationModel: { pageSize: 8 } },
+        }}
+          pageSizeOptions={[8, 16, 24]}
           rows={gridRows}
           columns={gridColumns}
           onRowClick={(params) => toggleModal(true, params.row)}
           checkboxSelection
           disableRowSelectionOnClick
-          {...list}
           onRowSelectionModelChange={(ids) => onRowsSelectionHandler(ids)}
+          getRowClassName={(params) => {
+            const tipoRegistro = params.row.type;
+            let claseEstilo = tipoRegistro;
+            return claseEstilo;
+          }}
         />
       </div>
     </>
   );
 };
 
-export default Lista;
+export default AgendaRegisterList;

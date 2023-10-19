@@ -8,7 +8,9 @@ const AppButton = ({ type, onClick, variant, label, icono, className }) => {
     <>
       <Button className={className} type={type} onClick={onClick} variant={variant}>
         {icono ? <IconComponent /> : null} {/* Renderiza el IconComponent solo si icono no es nulo */}
-        {icono ? null : label} {/* Renderiza el label solo si icono es nulo */}
+        {icono ? <br /> : null}
+        {label} 
+        {/* {icono ? null : label} Renderiza el label solo si icono es nulo */}
       </Button>
     </>
   );

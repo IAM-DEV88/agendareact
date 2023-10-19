@@ -39,7 +39,7 @@ const Menu = () => {
   const { title, icon } = getTitleAndIcon();
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar expand="lg">
       <Container>
         <Navbar.Brand href={title.href}>
           {icon} {title}

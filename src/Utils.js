@@ -4,15 +4,15 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  useMemo,
 } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import db from "./component/Database";
-import { v4 as uuidv4 } from "uuid";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import SaveIcon from '@mui/icons-material/Save';
+import CloseIcon from '@mui/icons-material/Close';
+import axios from "axios";
 
 // Creamos un contexto
 const AppContext = createContext();
@@ -24,62 +24,45 @@ export const AppProvider = ({ children }) => {
   const [showNotification, setShowNotification] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
   const [formData, setFormData] = useState({
-    id: 0,
-    tipo: "",
-    fecha: "",
-    hora: "",
-    monto: 0,
-    descripcion: "",
+    type: "",
+    date: "",
+    time: "",
+    amount: "",
+    description: "",
+    wallet:"",
   });
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    db.registros.toArray().then((data) => {
-      if (data.length === 0) {
-        db.registros.bulkAdd([]).then(() => {
-          setDbList([]);
-        });
-      } else {
-        setDbList(data);
+    async function loadData() {
+      try {
+        const response = await axios.get("/api/list");
+        setDbList(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+        throw error;
       }
-    }, []);
-  }, []);
-
-  const deleteHandler = (id) => {
-    const isConfirmed = window.confirm(
-      "¿Estás seguro de eliminar este registro?"
-    );
-
-    if (isConfirmed) {
-      db.registros
-        .where("id")
-        .equals(id)
-        .delete()
-        .then(() => {
-          setDbList((prevList) => prevList.filter((item) => item.id !== id));
-        });
-      closeModal();
     }
-  };
+    loadData();
+  }, []);
 
   const toggleModal = useCallback(
     (edit, register) => {
       setIsEditing(edit);
       if (edit) {
         setFormData(register);
-      } else {
-        setFormData((prevData) => ({
-          ...prevData,
-          id: uuidv4(),
-        }));
+      }else{
+        setFormData({
+          ...formData,
+          date: getCurrentDate(),
+          time: getCurrentTime(),
+        });
       }
       setShowModal(!showModal);
-
-      // Deseleccionar todos los registros cuando se abre el modal
       setSelectedRecords([]);
     },
-    [showModal]
+    [showModal, formData]
   );
 
   const showCustomNotification = (message, formData) => {
@@ -91,12 +74,12 @@ export const AppProvider = ({ children }) => {
   const resetForm = () => {
     setIsEditing(false);
     setFormData({
-      id: 0,
-      tipo: "",
-      fecha: "",
-      hora: "",
-      descripcion: "",
-      monto: 0,
+      type: "",
+      date: "",
+      time: "",
+      amount: "",
+      description: "",
+      wallet: "",
     });
   };
 
@@ -113,165 +96,142 @@ export const AppProvider = ({ children }) => {
     }));
   };
 
-  const duplicateHandler = (id) => {
-    const isConfirmed = window.confirm(
-      "¿Estás seguro de duplicar este registro?"
-    );
-
-    if (isConfirmed) {
-      const newId = uuidv4();
-      const existingRecord = list.find((item) => item.id === id);
-
-      if (existingRecord) {
-        const duplicatedRecord = {
-          ...existingRecord,
-          id: newId,
-        };
-
-        setDbList([...list, duplicatedRecord]);
-
-        db.registros
-          .add(duplicatedRecord)
-          .then(() => {
-            // Manejar éxito
-          })
-          .catch((error) => {
-            // Manejar errores si es necesario
-          });
-      }
-      closeModal();
-    }
-  };
-
-  const updateHandler = () => {
+  const updateHandler = async () => {
     const isConfirmed = window.confirm(
       "¿Estás seguro de actualizar este registro?"
     );
-
     if (isConfirmed) {
-      db.registros
-        .where("id")
-        .equals(formData.id)
-        .modify({
-          tipo: formData.tipo,
-          fecha: formData.fecha,
-          hora: formData.hora,
-          descripcion: formData.descripcion,
-          monto: formData.monto,
-        })
-        .then(() => {
-          setDbList((prevList) =>
-            prevList.map((item) =>
-              item.id === formData.id
-                ? {
-                    ...item,
-                    tipo: formData.tipo,
-                    fecha: formData.fecha,
-                    hora: formData.hora,
-                    descripcion: formData.descripcion,
-                    monto: formData.monto,
-                  }
-                : item
-            )
-          );
+      try {
+        const response = await axios.post(`/api/update/`, formData);
+        if (response.status === 201) {
+          const updatedRegisterList = await loadRegisterList();
+          setDbList(updatedRegisterList);
+        }
+        showCustomNotification(response.data.message, formData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+    setSelectedRecords([]);
+  };
+
+  const deleteHandler = async (idArray) => {
+    console.log(idArray);
+    const isConfirmed = window.confirm(
+      "¿Estás seguro de eliminar este registro?"
+    );
+    if (isConfirmed) {
+      try {
+        // Realizar una solicitud DELETE para eliminar registros
+        const response = await axios.delete("/api/delete", {
+          data: { idArray }, // Pasar el array de IDs como parte del cuerpo de la solicitud
         });
+        if (response.status === 201) {
+          // Si la eliminación tiene éxito, cargar la lista actualizada
+          const updatedRegisterList = await loadRegisterList();
+          setDbList(updatedRegisterList); // Actualizar la lista en el estado
+        }
+        showCustomNotification(response.data.message);
+        closeModal();
+        resetForm();
+        setSelectedRecords([]);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
 
-  const insertAndReset = (e) => {
-    e.preventDefault();
+  const loadRegisterList = async () => {
+    try {
+      const response = await axios.get("/api/list");
+      return response.data; // Devuelve los datos cargados
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  };
 
-    const { tipo, fecha, hora, monto, descripcion } = formData;
-    if (!tipo || !fecha || !hora || !monto || !descripcion) {
+  const duplicateHandler = async (idArray) => {
+    const isConfirmed = window.confirm(
+      "¿Estás seguro de duplicar este registro?"
+    );
+    if (isConfirmed) {
+      try {
+        const response = await axios.post(`/api/duplicate/`, idArray);
+        if (response.status === 201) {
+          const updatedRegisterList = await loadRegisterList();
+          setDbList(updatedRegisterList);
+        }
+        showCustomNotification(response.data.message);
+        closeModal();
+        resetForm();
+        setSelectedRecords([]);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  const insertAndReset = async (e) => {
+    e.preventDefault();
+    const { type, date, time, amount, description, wallet } = formData;
+    if (!type || !date || !time || !amount || !description || !wallet ) {
       console.error("Por favor, complete todos los campos antes de guardar.");
       return;
     }
-
     if (!isEditing) {
-      setDbList([...list, formData]);
-
-      db.registros
-        .add(formData)
-        .then(() => {
-          // Manejar éxito
-        })
-        .catch((error) => {
-          // Manejar errores si es necesario
-        });
+      try {
+        const { id, ...formDataWithoutId } = formData;
+        const response = await axios.post("/api/new", formDataWithoutId); // Envía los datos en el cuerpo de la solicitud
+        if (response.status === 201) {
+          const updatedRegisterList = await loadRegisterList();
+          setDbList(updatedRegisterList);
+        }
+        showCustomNotification(response.data.message);
+        resetForm();
+      } catch (error) {
+        console.error("Error:", error);
+      }
     } else {
       updateHandler();
     }
     setIsEditing(false);
     closeModal();
-    // Deseleccionar todos los registros después de guardar o actualizar
-    setSelectedRecords([]);
   };
 
-  const duplicateSelectedRecords = async () => {
-    const isConfirmed = window.confirm(
-      `¿Estás seguro de duplicar ${selectedRecords.length} registros?`
-    );
-
-    if (isConfirmed) {
-      const duplicatedRecords = selectedRecords.map((id) => {
-        const existingRecord = list.find((item) => item.id === id);
-        if (existingRecord) {
-          return {
-            ...existingRecord,
-            id: uuidv4(),
-          };
-        }
-        return null;
-      });
-
-      const filteredNewRecords = duplicatedRecords.filter(
-        (record) => record !== null
-      );
-
-      // Ahora, guardamos los registros duplicados en la base de datos
-      for (const record of filteredNewRecords) {
-        try {
-          await db.registros.add(record);
-          console.log(record);
-        } catch (error) {
-          // Manejar errores si es necesario
-          console.error("Error al guardar el registro:", error);
-        }
-      }
-
-      // Actualizamos el estado con los registros duplicados
-      setDbList([...list, ...filteredNewRecords]);
-
-      // Cerramos el modal u realizamos otras acciones necesarias
-      closeModal();
+  const formatCurrency = useMemo(() => (value) => {
+    // Verifica si el valor es un número válido
+    if (typeof value !== "number" || isNaN(value)) {
+      return "Invalido";
     }
+
+    // Formatea el valor en pesos colombianos (COP)
+    const formattedValue = `$${value
+      .toFixed(0)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+    return formattedValue;
+  }, []);
+
+  const getCurrentDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
-
-  const deleteSelectedRecords = async () => {
-    const isConfirmed = window.confirm(
-      `¿Estás seguro de eliminar ${selectedRecords.length} registros?`
-    );
-
-    if (isConfirmed) {
-      try {
-        const remainingRecords = list.filter(
-          (item) => !selectedRecords.includes(item.id)
-        );
-
-        await db.registros.bulkDelete(selectedRecords);
-
-        setDbList(remainingRecords);
-      } catch (error) {
-        // Manejar errores si es necesario
-        console.error("Error al eliminar los registros:", error);
-      }
-
-      closeModal();
-    }
+  
+  const getCurrentTime = () => {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
   };
 
   const sharedState = {
+    getCurrentDate,
+getCurrentTime,
     list,
+    formatCurrency,
     deleteHandler,
     toggleModal,
     selectedRecords,
@@ -285,13 +245,13 @@ export const AppProvider = ({ children }) => {
     showModal,
     closeModal,
     isEditing,
-    deleteSelectedRecords,
-    duplicateSelectedRecords,
     insertAndReset,
     duplicateHandler,
     handleInputChange,
     AddCircleOutlineIcon,
     RemoveCircleOutlineIcon,
+    SaveIcon,
+    CloseIcon,
     ContentCopyIcon,
     QueryStatsIcon,
   };

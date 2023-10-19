@@ -8,6 +8,8 @@ const RegistroModal = () => {
   const {
     showModal,
     closeModal,
+    SaveIcon,
+    CloseIcon,
     isEditing,
     formData,
     handleInputChange,
@@ -25,28 +27,29 @@ const RegistroModal = () => {
         </Modal.Header>
         <Modal.Body className="modalBody">
           <h6>Tipo:</h6>
-          <div className="registerType">
-            {["Turno", "Ingreso", "Egreso", "Saldo"].map((option) => (
+          <div className="register-type">
+            {["Turno", "Ingreso", "Egreso", "Saldo"].map((option, index) => (
               <Input
-                key={option}
+                key={index}
+                className={option}
                 tipo="radio"
                 label={option}
-                nombre="tipo"
+                nombre="type"
                 value={option}
-                checked={formData.tipo === option}
+                checked={formData.type === option}
                 onChange={handleInputChange}
               />
             ))}
           </div>
           <hr />
           <h6>Datos:</h6>
-          <div className="registerData">
+          <div className="register-data">
             <Input
               className="short"
               tipo="date"
               label="Fecha"
-              nombre="fecha"
-              value={formData.fecha}
+              nombre="date"
+              value={formData.date}
               errmsg="Debe indicar una fecha"
               onChange={handleInputChange}
             />
@@ -54,60 +57,76 @@ const RegistroModal = () => {
               className="short"
               tipo="time"
               label="Hora"
-              nombre="hora"
-              value={formData.hora}
+              nombre="time"
+              value={formData.time}
               errmsg="Debe indicar una hora"
               onChange={handleInputChange}
             />
             <Input
               className="short"
               tipo="number"
-              label="Monto"
-              nombre="monto"
-              value={formData.monto}
+              label="Valor"
+              nombre="amount"
+              value={formData.amount}
               errmsg="Debe indicar un monto"
               onChange={handleInputChange}
             />
+
+            <Input
+              className="short"
+              tipo="select"
+              label="Billetera"
+              nombre="wallet"
+              selected={formData.wallet}
+              selectList={[
+                { value: "Caja", label: "Caja" },
+                { value: "Nequi", label: "Nequi" },
+              ]}
+              onChange={handleInputChange}
+            />
+
             <Input
               className="full"
               tipo="text"
               label="Descripcion"
-              nombre="descripcion"
-              value={formData.descripcion}
+              nombre="description"
+              value={formData.description}
               errmsg="Debe indicar una descripcion"
               onChange={handleInputChange}
             />
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <AppButton
-            variant="success"
-            type="submit"
-            label={!isEditing ? "Guardar" : "Actualizar"}
-          />
           {isEditing && (
             <>
-              <AppButton
-                variant="primary"
-                type="button"
-                label="Duplicar"
-                onClick={() => duplicateHandler(formData.id)}
-                icono={ContentCopyIcon}
-              />
               <AppButton
                 variant="danger"
                 type="button"
                 label="Eliminar"
-                onClick={() => deleteHandler(formData.id)}
+                onClick={() => deleteHandler([formData.id])}
                 icono={RemoveCircleOutlineIcon}
+              />
+              <AppButton
+                variant="primary"
+                type="button"
+                label="Duplicar"
+                onClick={() => duplicateHandler([formData.id])}
+                icono={ContentCopyIcon}
               />
             </>
           )}
+          <AppButton
+            variant="success"
+            type="submit"
+            label={!isEditing ? "Guardar" : "Actualizar"}
+            icono={SaveIcon}
+          />
           <AppButton
             variant="secondary"
             type="button"
             label="Cancelar"
             onClick={closeModal}
+            icono={CloseIcon}
           />
         </Modal.Footer>
       </form>
