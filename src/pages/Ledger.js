@@ -3,14 +3,14 @@
   import dayjs from "dayjs";
   import CountableRegisterList from "../component/CountableRegisterList";
   import AppButton from "../component/AppButton";
-  import RegistroModal from "../component/RegistroModal";
+  import RegistroModal from "../component/ModalRegister";
   import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
   import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
   import ResumenModal from "../component/ResumenModal";
   import es from "dayjs/locale/es";
   import { useAppContext } from "../Utils";
 
-  const Archivo = () => {
+  const Ledger = () => {
     const {
       list,
       toggleModal,
@@ -243,4 +243,4 @@
     );
   };
 
-  export default Archivo;
+  export default Ledger;

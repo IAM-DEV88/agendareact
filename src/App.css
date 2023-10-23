@@ -1,6 +1,6 @@
 :root{
   --bg-perla: #f2f2f2;
-  --border-bold: 2px solid #ccc;
+  --border-bold: .5px solid #ccc;
   --box-shadow: 0 0 10px rgb(246 202 203);
 }
 
@@ -181,7 +181,6 @@ html{
     font-weight: bold;
     color: #fff;
     text-shadow: 1px 1px black;
-    box-shadow: var(--box-shadow);
     border-radius: 5px;
     width: 66px;
   font-size: 1.5rem !important;

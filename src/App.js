@@ -6,8 +6,8 @@ import {
   RouterProvider,
   BrowserRouter as Router,
 } from "react-router-dom";
-import Agenda from "./routes/agenda";
-import Archivo from "./routes/archivo";
+import Agenda from "./pages/Agenda";
+import Ledger from "./pages/Ledger";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { AppProvider } from "./Utils";
@@ -20,7 +20,7 @@ function App() {
     },
     {
       path: "/archivo",
-      element: <Archivo />,
+      element: <Ledger />,
     }
   ]);
   return (
