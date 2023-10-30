@@ -26,6 +26,9 @@ const Agenda = () => {
     formatCurrency,
   } = useAppContext();
 
+console.log(list)
+
+
   const [filters, setFilters] = useState({
     planner: true,
     historical: false,

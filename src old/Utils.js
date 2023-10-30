@@ -10,8 +10,8 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import SaveIcon from '@mui/icons-material/Save';
-import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from "@mui/icons-material/Save";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 
 // Creamos un contexto
@@ -20,9 +20,9 @@ const AppContext = createContext();
 // Provider personalizado que contendrá la lógica y los datos compartidos
 export const AppProvider = ({ children }) => {
   const [list, setDbList] = useState([]);
-  const [selectedRecords, setSelectedRecords] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     type: "",
     date: "",
@@ -31,21 +31,23 @@ export const AppProvider = ({ children }) => {
     description: "",
     wallet:"",
   });
+  const [selectedRecords, setSelectedRecords] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+
 
   useEffect(() => {
-    async function loadData() {
-      try {
-        const response = await axios.get("/api/list");
-        setDbList(response.data);
-      } catch (error) {
-        console.error("Error:", error);
-        throw error;
+      async function loadData() {
+        try {
+          const response = await axios.get("/api/list");
+          setDbList(response.data);
+        } catch (error) {
+          console.error("Error:", error);
+          throw error;
+        }
       }
-    }
-    loadData();
+      loadData();
   }, []);
+  
 
   const toggleModal = useCallback(
     (edit, register) => {

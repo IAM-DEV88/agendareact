@@ -1,0 +1,36 @@
+.summary > table{
+    width: 100%;
+    font-size: var(--font-md);
+    line-height: 1.7rem;
+    margin-bottom: 3rem;
+  }
+  .summary > table:last-child{
+    margin-bottom: 0;
+  }
+  
+  .summary table tbody tr:last-child .currency{
+    font-weight: bolder;
+    background-color: #ffffff50;
+    border-radius: 5px;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+  }
+  .summary h2{
+    font-size: var(--font-md);
+    text-align: center;
+    background-color: #ffffff50;
+    border-radius: 5px;
+  }
+  
+  .summary th{
+    text-align: center;
+  }
+  
+  .summary tr > td{
+    text-align: center;
+  }
+  
+  .summary .currency{
+    text-align: right;
+    padding-right: .5rem;
+  }

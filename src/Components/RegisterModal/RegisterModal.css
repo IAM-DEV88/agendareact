@@ -1,0 +1,105 @@
+.register-type {
+    display: flex;
+    justify-content: space-around;
+}
+
+.register-type span {
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px black;
+    border-radius: 5px;
+    padding: .5rem;
+    font-size: var(--font-sm);
+
+}
+
+.register-type input {
+    display: block;
+    margin: .5rem auto;
+    width: 100%;
+    height: 20px;
+}
+
+.register-data {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    font-size: var(--font-sm);
+}
+
+.register-data>span {
+    padding: 0 .5rem;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: .5rem;
+    font-weight: bold;
+}
+
+.register-data .short {
+    width: 49%;
+}
+
+.register-data .full {
+    width: 100%;
+}
+
+.register-data label {
+    display: block;
+    margin-bottom: .5rem;
+    font-size: var(--font-sm);
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.register-data input,
+select {
+    text-align: center;
+    height: 3rem;
+    font-size: var(--font-md);
+    border: var(--border-line-dark);
+    color: #fff;
+    border-radius: 5px;
+    display: block;
+    width: -webkit-fill-available;
+    background: #ffffff30;
+}
+
+.register-data select option{
+  background: rgba(0, 0, 0, .9);
+  font-size: var(--font-sm);
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.modal-title {
+    font-size: var(--font-lg) !important;
+}
+
+.btn-close {
+    background-color: #fff !important;
+    margin-right: 0 !important;
+}
+
+[role="dialog"] {
+    color: #fff !important;
+}
+
+.modal-content {
+    background: linear-gradient(-45deg, #06041e 0%, #223543 15%, #06041e 45%, #223543 75%, #06041e 100%) !important;
+    border: var(--border-line-dark);
+    color: #fff;
+}
+
+
+.register-type .Income, .Income > div:nth-child(3n){
+    background-color: rgba(112, 241, 112, .1);
+  }
+  .register-type .Expense, .Expense > div:nth-child(3n){
+    background-color: rgba(223, 86, 86, .1);
+  }
+  .register-type .Balance, .Balance > div:nth-child(3n){
+    background-color: rgba(255, 246, 65, .1);
+  }

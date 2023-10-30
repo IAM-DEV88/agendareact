@@ -1,0 +1,82 @@
+    .about {
+        padding-top: 3rem;
+    }
+
+    .about-container {
+        background: linear-gradient(-45deg, #06041e 0%, #223543 15%, #06041e 45%, #223543 75%, #06041e 100%);
+        border-radius: 10px;
+        background-position: 80% center;
+        background-size: 400% 100%;
+        width: 90%;
+        margin: 0 auto;
+        border: var(--border-line-dark);
+        box-shadow: 0 0 10px #06041e;
+    }
+
+    .about-container:hover {
+        cursor: pointer;
+    }
+    
+    .about-container section {
+        padding: 1rem;
+        background-position: 0% center;
+        border-radius: 5px;
+        min-width: 320px;
+        min-height: 200px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        background-image: linear-gradient(313deg, rgba(147, 208, 223, 0.8) 0%, rgba(147, 208, 223, 0.8) 83%, rgba(230, 230, 237, .8) 99%);
+        background-size: auto auto;
+        background-clip: border-box;
+        background-size: 200% auto;
+        text-shadow: 0 0 2px rgba(255, 255, 255, .1);
+        color: #fff;
+        background-clip: text;
+        text-fill-color: transparent;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: aliceblue;
+    }
+
+    .about a{
+        text-decoration: none;
+    }
+
+    .main-tag span {
+        font-size: var(--font-md);
+        background: rgba(255, 255, 255, .1);
+        display: inline-block;
+        padding: .2rem .5rem;
+        border-radius: 5px;
+        font-weight: bold;
+        margin-right: .5rem;
+    }
+
+    .project {
+        padding: 1rem;
+        font-size: var(--font-lg);
+        font-weight: bold;
+        flex-grow: 1;
+    }
+
+    .demo,
+    .application {
+        text-align: right;
+        font-size: var(--font-sm);
+    }
+
+    .secondary-tag {
+        text-align: right;
+    }
+
+    .secondary-tag span {
+        margin-bottom: .5rem;
+        background: rgba(255, 255, 255, .1);
+        display: inline-block;
+        padding: .2rem .5rem;
+        border-radius: 5px;
+        font-weight: bold;
+        margin-right: .5rem;
+        font-size: var(--font-sm);
+    }

@@ -1,7 +1,7 @@
   import React, { useState, useEffect } from "react";
   import { toast, ToastContainer } from "react-toastify";
   import dayjs from "dayjs";
-  import CountableRegisterList from "../component/CountableRegisterList";
+  import LedgerRegisterList from "../component/LedgerRegisterList";
   import AppButton from "../component/AppButton";
   import RegistroModal from "../component/ModalRegister";
   import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -48,7 +48,7 @@
       Income: true,
       Expense: true,
       Balance: true,
-      Fecha: false,
+      Date: false,
     });
 
     useEffect(() => {
@@ -181,7 +181,7 @@
             </LocalizationProvider>
           </div>
         </section>
-        <CountableRegisterList
+        <LedgerRegisterList
         list={filteredList}
         gridColumns={[
           { field: "description", headerName: "Descripción", width: 130 },

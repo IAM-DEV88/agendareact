@@ -12,17 +12,17 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { AppProvider } from "./Utils";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Agenda />,
+  },
+  {
+    path: "/archivo",
+    element: <Ledger />,
+  }
+]);
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Agenda />,
-    },
-    {
-      path: "/archivo",
-      element: <Ledger />,
-    }
-  ]);
   return (
     <>
       <AppProvider>

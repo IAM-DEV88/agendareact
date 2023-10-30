@@ -1,0 +1,7 @@
+[data-field="date"]>div{
+}
+
+[data-field="timeLeft"]>div, [data-field="time"]>div, [data-field="date"]>div{
+    text-align: center !important;
+    font-size: var(--font-sm) !important;
+}
